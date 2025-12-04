@@ -1,0 +1,46 @@
+{
+  "name": "hermod",
+  "version": "0.1.0",
+  "description": "Predictive Multi-Modal Congestion Avoider for Luxembourg cross-border commuters",
+  "main": "lib/infra/hermod-stack.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk",
+    "test": "jest",
+    "lint": "eslint . --ext .ts,.tsx",
+    "synth": "cdk synth",
+    "deploy": "cdk deploy",
+    "ui:dev": "cd lib/ui && npm run dev",
+    "ui:build": "cd lib/ui && npm run build",
+    "ui:install": "cd lib/ui && npm install"
+  },
+  "keywords": [
+    "aws-cdk",
+    "luxembourg",
+    "commuter",
+    "transit",
+    "gtfs",
+    "weather",
+    "predictive-analytics"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "aws-cdk": "^2.170.0",
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.4.0"
+  },
+  "dependencies": {
+    "aws-cdk-lib": "^2.170.0",
+    "constructs": "^10.3.0",
+    "source-map-support": "^0.5.21"
+  }
+}
