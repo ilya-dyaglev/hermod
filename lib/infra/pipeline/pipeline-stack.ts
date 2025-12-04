@@ -37,7 +37,7 @@ export class PipelineStack extends Stack {
   constructor(scope: Construct, id: string, props: PipelineStackProps) {
     super(scope, id, props);
 
-    if (!props.env?.account) {
+    if (props.env?.account === undefined || props.env.account === '') {
       throw new Error('PipelineStack requires props.env.account');
     }
 

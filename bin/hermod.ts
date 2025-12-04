@@ -4,8 +4,9 @@ import { App } from 'aws-cdk-lib';
 import { PipelineStack } from '@/pipeline/pipeline-stack';
 import { HermodStack } from '@/hermod-stack';
 import { getPipelineConfig } from '@/config/pipeline';
-import { getStageConfig, StageConfig } from '@/config/stages';
-import { PipelineConfig } from '@/config/pipeline';
+import { getStageConfig } from '@/config/stages';
+import type { StageConfig } from '@/config/stages';
+import type { PipelineConfig } from '@/config/pipeline';
 
 const app = new App();
 
