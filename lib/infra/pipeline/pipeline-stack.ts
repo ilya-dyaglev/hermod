@@ -47,6 +47,7 @@ export class PipelineStack extends Stack {
           'npm ci',
           'npm run lint',
           'npm run build',
+          'npm run ui:build',
           'npx cdk synth',
         ],
       }),
