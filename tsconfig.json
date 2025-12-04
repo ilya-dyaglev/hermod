@@ -7,31 +7,18 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": false,
     "inlineSourceMap": true,
     "inlineSources": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
     "outDir": "./dist",
-    "rootDir": ".",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "typeRoots": ["./node_modules/@types"]
+    "resolveJsonModule": true
   },
-  "include": [
-    "bin/**/*.ts",
-    "lib/infra/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "cdk.out",
-    "lib/ui"
-  ]
+  "include": ["bin/**/*.ts", "lib/infra/**/*.ts"],
+  "exclude": ["node_modules", "dist", "cdk.out", "lib/ui"]
 }
