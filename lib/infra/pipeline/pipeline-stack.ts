@@ -37,12 +37,23 @@ export class PipelineStack extends Stack {
   constructor(scope: Construct, id: string, props: PipelineStackProps) {
     super(scope, id, props);
 
+    if (!props.env?.account) {
+      throw new Error('PipelineStack requires props.env.account');
+    }
+
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'hermod-pipeline',
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.connection(props.githubRepo, props.branch, {
           connectionArn: props.connectionArn,
         }),
+        env: {
+          GITHUB_CONNECTION_ARN: props.connectionArn,
+          AWS_ACCOUNT_ID: props.env.account,
+          GITHUB_REPO: props.githubRepo,
+          GITHUB_BRANCH: props.branch,
+          AWS_REGION: props.env.region ?? 'eu-central-1',
+        },
         commands: [
           'npm ci',
           'npm run lint',

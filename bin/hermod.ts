@@ -4,7 +4,8 @@ import { App } from 'aws-cdk-lib';
 import { PipelineStack } from '@/pipeline/pipeline-stack';
 import { HermodStack } from '@/hermod-stack';
 import { getPipelineConfig } from '@/config/pipeline';
-import { getStageConfig } from '@/config/stages';
+import { getStageConfig, StageConfig } from '@/config/stages';
+import { PipelineConfig } from '@/config/pipeline';
 
 const app = new App();
 
@@ -20,11 +21,11 @@ const app = new App();
  *    → Deploys the pipeline (which auto-deploys prod on GitHub push)
  */
 
-const connectionArn = process.env.GITHUB_CONNECTION_ARN;
-const isPipelineMode = connectionArn !== undefined && connectionArn !== '';
+const connectionArn: string | undefined = process.env.GITHUB_CONNECTION_ARN;
+const isPipelineMode: boolean = connectionArn !== undefined && connectionArn !== '';
 
 if (isPipelineMode) {
-  const config = getPipelineConfig();
+  const config: PipelineConfig = getPipelineConfig();
 
   new PipelineStack(app, 'HermodPipeline', {
     githubRepo: config.githubRepo,
@@ -37,7 +38,7 @@ if (isPipelineMode) {
     description: 'Hermod CI/CD Pipeline - deploys prod on GitHub push',
   });
 } else {
-  const config = getStageConfig();
+  const config: StageConfig = getStageConfig();
 
   new HermodStack(app, config.stackName, {
     env: {
