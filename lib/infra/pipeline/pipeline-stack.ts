@@ -56,6 +56,7 @@ export class PipelineStack extends Stack {
         commands: [
           'npm ci',
           'npm run lint',
+          'npm run test:coverage',
           'npm run build',
           'npm run ui:build',
           // Fetch config from SSM Parameter Store

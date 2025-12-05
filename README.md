@@ -14,6 +14,9 @@ ML-powered predictive routing using real-time transit, weather, and mobility dat
 
 ```
 hermod/
+├── __tests__/                 # Unit tests (mirrors lib/ structure)
+│   ├── infra/                 # @infra/* imports
+│   └── ui/                    # @ui/* imports (future)
 ├── bin/
 │   └── hermod.ts              # CDK app entry point (dev/pipeline mode)
 ├── lib/
@@ -28,6 +31,8 @@ hermod/
 ├── scripts/
 │   ├── bootstrap-ssm.sh       # Creates SSM parameters from .env
 │   └── deploy.sh              # AWS auth + CDK deploy
+├── .env.example               # Environment template
+├── vitest.config.ts           # Test configuration
 └── cdk.json
 ```
 
@@ -54,13 +59,20 @@ npm run ui:install
 
 ### Configuration
 
-Create a `.env` file (gitignored) with your settings:
+Copy `.env.example` to `.env` and fill in your values:
 
 ```bash
+cp .env.example .env
+```
+
+```bash
+# Required
 AWS_ACCOUNT_ID=your-account-id
-AWS_REGION=eu-central-1
 GITHUB_CONNECTION_ARN=arn:aws:codestar-connections:region:account:connection/id
 GITHUB_REPO=your-username/hermod
+
+# Optional (defaults shown)
+AWS_REGION=eu-central-1
 GITHUB_BRANCH=main
 ```
 
@@ -141,6 +153,36 @@ npm run lint
 
 # Build
 npm run build
+
+# Destroy deployed stack
+npm run destroy
+```
+
+## Testing
+
+Tests live in `__tests__/` mirroring the `lib/` structure. Uses Vitest.
+
+```bash
+# Run tests once
+npm run test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run with coverage
+npm run test:coverage
+```
+
+### Test Aliases
+
+| Alias | Resolves to |
+|-------|-------------|
+| `@infra/*` | `lib/infra/*` |
+| `@ui/*` | `lib/ui/src/*` |
+
+```typescript
+// Example: __tests__/infra/config/stages.test.ts
+import { Stages } from '@infra/config/stages';
 ```
 
 ## Design Decisions

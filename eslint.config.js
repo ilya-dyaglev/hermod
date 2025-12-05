@@ -13,6 +13,7 @@ export default tseslint.config(
       "node_modules/**",
       "**/*.js",
       "**/*.d.ts",
+      "vitest.config.ts",
     ],
   },
 
@@ -26,7 +27,7 @@ export default tseslint.config(
     files: ["**/*.{ts,tsx}"],
     languageOptions: {
       parserOptions: {
-        project: ["./tsconfig.json", "./lib/ui/tsconfig.json"],
+        project: ["./tsconfig.json", "./__tests__/tsconfig.json", "./lib/ui/tsconfig.json"],
         tsconfigRootDir: import.meta.dirname,
       },
     },

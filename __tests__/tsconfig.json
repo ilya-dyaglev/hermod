@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "baseUrl": "..",
+    "paths": {
+      "@infra/*": ["lib/infra/*"],
+      "@ui/*": ["lib/ui/src/*"]
+    }
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
+}
+
