@@ -41,6 +41,8 @@ export class PipelineStack extends Stack {
       throw new Error('PipelineStack requires props.env.account');
     }
 
+    const region: string = props.env.region ?? 'eu-central-1';
+
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'hermod-pipeline',
       synth: new ShellStep('Synth', {
@@ -48,17 +50,23 @@ export class PipelineStack extends Stack {
           connectionArn: props.connectionArn,
         }),
         env: {
-          GITHUB_CONNECTION_ARN: props.connectionArn,
-          AWS_ACCOUNT_ID: props.env.account,
-          GITHUB_REPO: props.githubRepo,
-          GITHUB_BRANCH: props.branch,
-          AWS_REGION: props.env.region ?? 'eu-central-1',
+          AWS_REGION: region,
         },
         commands: [
           'npm ci',
           'npm run lint',
           'npm run build',
           'npm run ui:build',
+          // Fetch config from SSM Parameter Store
+          'export AWS_ACCOUNT_ID=$(aws ssm get-parameter --name /hermod/config/account-id --query Parameter.Value --output text --region $AWS_REGION)',
+          'export GITHUB_CONNECTION_ARN=$(aws ssm get-parameter --name /hermod/config/github-connection-arn --query Parameter.Value --output text --region $AWS_REGION)',
+          'export GITHUB_REPO=$(aws ssm get-parameter --name /hermod/config/github-repo --query Parameter.Value --output text --region $AWS_REGION)',
+          'export GITHUB_BRANCH=$(aws ssm get-parameter --name /hermod/config/github-branch --query Parameter.Value --output text --region $AWS_REGION)',
+          // Validate SSM parameters were fetched (fail fast if missing)
+          '[ -n "$AWS_ACCOUNT_ID" ] || { echo "ERROR: Failed to fetch AWS_ACCOUNT_ID from SSM"; exit 1; }',
+          '[ -n "$GITHUB_CONNECTION_ARN" ] || { echo "ERROR: Failed to fetch GITHUB_CONNECTION_ARN from SSM"; exit 1; }',
+          '[ -n "$GITHUB_REPO" ] || { echo "ERROR: Failed to fetch GITHUB_REPO from SSM"; exit 1; }',
+          '[ -n "$GITHUB_BRANCH" ] || { echo "ERROR: Failed to fetch GITHUB_BRANCH from SSM"; exit 1; }',
           'npx cdk synth',
         ],
       }),
