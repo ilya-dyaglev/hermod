@@ -23,7 +23,7 @@ describe('pipeline config', () => {
       process.env.GITHUB_REPO = 'owner/repo';
 
       expect(() => getPipelineConfig()).toThrow(
-        'GITHUB_CONNECTION_ARN environment variable is required'
+        'GITHUB_CONNECTION_ARN environment variable is required',
       );
     });
 
@@ -33,7 +33,7 @@ describe('pipeline config', () => {
       process.env.GITHUB_CONNECTION_ARN = '';
 
       expect(() => getPipelineConfig()).toThrow(
-        'GITHUB_CONNECTION_ARN environment variable is required'
+        'GITHUB_CONNECTION_ARN environment variable is required',
       );
     });
 
@@ -41,9 +41,7 @@ describe('pipeline config', () => {
       process.env.GITHUB_CONNECTION_ARN = 'arn:aws:codestar-connections:...';
       process.env.GITHUB_REPO = 'owner/repo';
 
-      expect(() => getPipelineConfig()).toThrow(
-        'AWS_ACCOUNT_ID environment variable is required'
-      );
+      expect(() => getPipelineConfig()).toThrow('AWS_ACCOUNT_ID environment variable is required');
     });
 
     it('throws when AWS_ACCOUNT_ID is empty', () => {
@@ -51,9 +49,7 @@ describe('pipeline config', () => {
       process.env.GITHUB_REPO = 'owner/repo';
       process.env.AWS_ACCOUNT_ID = '';
 
-      expect(() => getPipelineConfig()).toThrow(
-        'AWS_ACCOUNT_ID environment variable is required'
-      );
+      expect(() => getPipelineConfig()).toThrow('AWS_ACCOUNT_ID environment variable is required');
     });
 
     it('throws when GITHUB_REPO is not set', () => {
@@ -61,7 +57,7 @@ describe('pipeline config', () => {
       process.env.AWS_ACCOUNT_ID = '123456789012';
 
       expect(() => getPipelineConfig()).toThrow(
-        'GITHUB_REPO environment variable is required (format: owner/repo)'
+        'GITHUB_REPO environment variable is required (format: owner/repo)',
       );
     });
 
@@ -71,12 +67,13 @@ describe('pipeline config', () => {
       process.env.GITHUB_REPO = '';
 
       expect(() => getPipelineConfig()).toThrow(
-        'GITHUB_REPO environment variable is required (format: owner/repo)'
+        'GITHUB_REPO environment variable is required (format: owner/repo)',
       );
     });
 
     it('returns config with defaults', () => {
-      process.env.GITHUB_CONNECTION_ARN = 'arn:aws:codestar-connections:eu-central-1:123456789012:connection/abc';
+      process.env.GITHUB_CONNECTION_ARN =
+        'arn:aws:codestar-connections:eu-central-1:123456789012:connection/abc';
       process.env.AWS_ACCOUNT_ID = '123456789012';
       process.env.GITHUB_REPO = 'myorg/myrepo';
 
@@ -92,7 +89,8 @@ describe('pipeline config', () => {
     });
 
     it('uses custom branch when GITHUB_BRANCH is set', () => {
-      process.env.GITHUB_CONNECTION_ARN = 'arn:aws:codestar-connections:eu-central-1:123456789012:connection/abc';
+      process.env.GITHUB_CONNECTION_ARN =
+        'arn:aws:codestar-connections:eu-central-1:123456789012:connection/abc';
       process.env.AWS_ACCOUNT_ID = '123456789012';
       process.env.GITHUB_REPO = 'myorg/myrepo';
       process.env.GITHUB_BRANCH = 'develop';
@@ -103,7 +101,8 @@ describe('pipeline config', () => {
     });
 
     it('uses custom region when AWS_REGION is set', () => {
-      process.env.GITHUB_CONNECTION_ARN = 'arn:aws:codestar-connections:us-east-1:123456789012:connection/abc';
+      process.env.GITHUB_CONNECTION_ARN =
+        'arn:aws:codestar-connections:us-east-1:123456789012:connection/abc';
       process.env.AWS_ACCOUNT_ID = '123456789012';
       process.env.GITHUB_REPO = 'myorg/myrepo';
       process.env.AWS_REGION = 'us-east-1';
@@ -114,4 +113,3 @@ describe('pipeline config', () => {
     });
   });
 });
-

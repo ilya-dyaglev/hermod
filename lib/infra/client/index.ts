@@ -5,4 +5,3 @@
  */
 
 export { ClientStack } from './create-resources';
-

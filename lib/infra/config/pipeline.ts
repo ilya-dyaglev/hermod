@@ -37,4 +37,3 @@ export const getPipelineConfig = (): PipelineConfig => {
     region: process.env.AWS_REGION ?? 'eu-central-1',
   };
 };
-

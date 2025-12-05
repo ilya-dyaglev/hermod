@@ -1,10 +1,5 @@
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
-import {
-  Stages,
-  getCurrentStage,
-  isProd,
-  getStageConfig,
-} from '@infra/config/stages';
+import { Stages, getCurrentStage, isProd, getStageConfig } from '@infra/config/stages';
 
 describe('stages config', () => {
   const originalEnv = process.env;
@@ -66,16 +61,12 @@ describe('stages config', () => {
 
   describe('getStageConfig', () => {
     it('throws when AWS_ACCOUNT_ID is not set', () => {
-      expect(() => getStageConfig()).toThrow(
-        'AWS_ACCOUNT_ID environment variable is required'
-      );
+      expect(() => getStageConfig()).toThrow('AWS_ACCOUNT_ID environment variable is required');
     });
 
     it('throws when AWS_ACCOUNT_ID is empty string', () => {
       process.env.AWS_ACCOUNT_ID = '';
-      expect(() => getStageConfig()).toThrow(
-        'AWS_ACCOUNT_ID environment variable is required'
-      );
+      expect(() => getStageConfig()).toThrow('AWS_ACCOUNT_ID environment variable is required');
     });
 
     it('returns dev config with defaults', () => {
@@ -115,4 +106,3 @@ describe('stages config', () => {
     });
   });
 });
-

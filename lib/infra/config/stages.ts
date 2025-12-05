@@ -17,6 +17,7 @@ export const getCurrentStage = (): Stage => {
   if (env === Stages.PROD) {
     return Stages.PROD;
   }
+
   return Stages.DEV;
 };
 

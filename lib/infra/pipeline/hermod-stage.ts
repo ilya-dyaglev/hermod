@@ -24,4 +24,3 @@ export class HermodStage extends Stage {
     });
   }
 }
-

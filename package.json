@@ -23,10 +23,12 @@
     "destroy": "cdk destroy",
     "ui:install": "npm install -w hermod-ui",
     "ui:dev": "npm run dev -w hermod-ui",
-    "ui:build": "npm run build -w hermod-ui"
+    "ui:build": "npm run build -w hermod-ui",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@stylistic/eslint-plugin": "^5.6.1",
     "@types/node": "^20.11.0",
     "@vitest/coverage-v8": "^4.0.15",
     "aws-cdk": "^2.170.0",
@@ -34,6 +36,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.14",
     "globals": "^16.1.0",
+    "husky": "^9.1.7",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "~5.4.0",

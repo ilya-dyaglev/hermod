@@ -7,11 +7,7 @@
 import { Stack } from 'aws-cdk-lib';
 import type { StackProps } from 'aws-cdk-lib';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import {
-  CodePipeline,
-  CodePipelineSource,
-  ShellStep,
-} from 'aws-cdk-lib/pipelines';
+import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines';
 import type { Construct } from 'constructs';
 import { HermodStage } from './hermod-stage';
 import { Stages } from '@/config/stages';
@@ -53,6 +49,9 @@ export class PipelineStack extends Stack {
         env: {
           AWS_REGION: region,
         },
+        installCommands: [
+          'n 20',
+        ],
         commands: [
           'npm ci',
           'npm run lint',

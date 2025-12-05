@@ -31,6 +31,7 @@ hermod/
 ├── scripts/
 │   ├── bootstrap-ssm.sh       # Creates SSM parameters from .env
 │   └── deploy.sh              # AWS auth + CDK deploy
+├── .husky/                    # Git hooks (pre-commit)
 ├── .env.example               # Environment template
 ├── vitest.config.ts           # Test configuration
 └── cdk.json
@@ -93,6 +94,7 @@ Developer → cdk deploy → AWS Account (dev-hermod stack)
 ### Pipeline Mode (CI/CD)
 
 When `GITHUB_CONNECTION_ARN` is **set**, the CDK app creates a `HermodPipeline` stack that:
+
 1. Watches your GitHub repository for changes
 2. Automatically builds, tests, and deploys on every push
 3. Self-mutates when pipeline configuration changes
@@ -148,8 +150,11 @@ For local development without the pipeline:
 # Run UI development server
 npm run ui:dev
 
-# Lint
+# Lint & format check
 npm run lint
+
+# Auto-fix lint & formatting
+npm run lint:fix
 
 # Build
 npm run build
@@ -175,27 +180,54 @@ npm run test:coverage
 
 ### Test Aliases
 
-| Alias | Resolves to |
-|-------|-------------|
-| `@infra/*` | `lib/infra/*` |
-| `@ui/*` | `lib/ui/src/*` |
+| Alias      | Resolves to    |
+| ---------- | -------------- |
+| `@infra/*` | `lib/infra/*`  |
+| `@ui/*`    | `lib/ui/src/*` |
 
 ```typescript
 // Example: __tests__/infra/config/stages.test.ts
 import { Stages } from '@infra/config/stages';
 ```
 
+## Code Quality
+
+### Linting & Formatting
+
+ESLint handles both linting and formatting via `@stylistic/eslint-plugin`:
+
+```bash
+# Check for issues
+npm run lint
+
+# Auto-fix issues
+npm run lint:fix
+```
+
+### Pre-commit Hooks
+
+Husky runs lint and tests before every commit:
+
+```bash
+# .husky/pre-commit
+npm run lint
+npm test
+```
+
+Commits will fail if lint errors exist or tests fail.
+
 ## Design Decisions
 
 ### Why SSM Parameter Store for Configuration?
 
-| Approach | Pros | Cons |
-|----------|------|------|
-| **Hardcoded values** | Simple | Security risk, inflexible |
-| **Environment variables baked in** | Works offline | Chicken-and-egg with self-mutation |
-| **SSM Parameter Store** ✓ | Secure, centralized, no secrets in code | Requires AWS access at synth time |
+| Approach                           | Pros                                    | Cons                               |
+| ---------------------------------- | --------------------------------------- | ---------------------------------- |
+| **Hardcoded values**               | Simple                                  | Security risk, inflexible          |
+| **Environment variables baked in** | Works offline                           | Chicken-and-egg with self-mutation |
+| **SSM Parameter Store** ✓          | Secure, centralized, no secrets in code | Requires AWS access at synth time  |
 
 We chose SSM because:
+
 - **No secrets in code**: Account IDs, connection ARNs never committed to git
 - **Avoids bootstrap problem**: Pipeline can self-mutate without losing config
 - **Single source of truth**: `.env` → SSM → Pipeline (one-way flow)

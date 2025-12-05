@@ -48,12 +48,7 @@ export class MobiliteitApi {
    * @param time Time (HH:MM).
    * @param maxJourneys Max journeys (default: 10).
    */
-  getDepartureBoard(
-    id: string,
-    date: string,
-    time: string,
-    maxJourneys = 10
-  ): string {
+  getDepartureBoard(id: string, date: string, time: string, maxJourneys = 10): string {
     return `${this.baseUrl}departureBoard?accessId=${this.accessId}&id=${id}&date=${date}&time=${time}&maxJourneys=${String(maxJourneys)}&format=json`;
   }
 }
