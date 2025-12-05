@@ -6,6 +6,7 @@
 
 import { Stack } from 'aws-cdk-lib';
 import type { StackProps } from 'aws-cdk-lib';
+import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import {
   CodePipeline,
   CodePipelineSource,
@@ -78,5 +79,21 @@ export class PipelineStack extends Stack {
       env: props.env,
     });
     pipeline.addStage(prodStage);
+
+    pipeline.buildPipeline();
+
+    pipeline.pipeline.role.addToPrincipalPolicy(
+      new PolicyStatement({
+        actions: ['codeconnections:UseConnection'],
+        resources: [props.connectionArn],
+      }),
+    );
+
+    pipeline.synthProject.addToRolePolicy(
+      new PolicyStatement({
+        actions: ['ssm:GetParameter'],
+        resources: [`arn:aws:ssm:${region}:${props.env.account}:parameter/hermod/config/*`],
+      }),
+    );
   }
 }
