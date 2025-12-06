@@ -14,6 +14,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '@/': path.resolve(__dirname, 'lib/infra') + '/',
       '@infra/': path.resolve(__dirname, 'lib/infra') + '/',
       '@ui/': path.resolve(__dirname, 'lib/ui/src') + '/',
     },
